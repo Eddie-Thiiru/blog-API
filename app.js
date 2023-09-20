@@ -2,9 +2,15 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
+const mongoose = require("mongoose");
 require("dotenv/config");
 
 const indexRouter = require("./routes/index");
+
+const mongoDB = process.env.MONGODB_URL;
+mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "mongo connection error"));
 
 const app = express();
 
